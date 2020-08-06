@@ -1,4 +1,3 @@
-import 'package:amar_bank_test/core/dto/personal_data.dart';
 import 'package:amar_bank_test/core/dto/registration_data.dart';
 import 'package:amar_bank_test/pages/personal_data/models/bank_account_no.dart';
 import 'package:amar_bank_test/pages/personal_data/models/date_of_birth.dart';

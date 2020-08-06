@@ -1,3 +1,5 @@
+import 'package:amar_bank_test/core/dto/address_data.dart';
+import 'package:amar_bank_test/core/dto/registration_data.dart';
 import 'package:amar_bank_test/core/responses/province_response.dart';
 import 'package:amar_bank_test/core/services/place_service.dart';
 import 'package:amar_bank_test/pages/address_data/bloc/address_data_event.dart';
@@ -34,6 +36,10 @@ class AddressDataBloc extends Bloc<AddressDataEvent, AddressDataState> {
       yield* _mapLoadProvinceToState(event, state);
     } else if (event is AddressDataProvinceChanged) {
       yield _mapProvinceChangedToState(event, state);
+    } else if (event is AddressDataSubmitted) {
+      yield* _mapAddressDataSubmittedToState(event, state);
+    } else if (event is SetRegistrationData) {
+      yield _mapSetRegistrationDataToState(event, state);
     }
   }
 
@@ -113,5 +119,41 @@ class AddressDataBloc extends Bloc<AddressDataEvent, AddressDataState> {
     } on Exception catch (_) {
       yield state.copyWith(loadingState: LoadingState.failed);
     }
+  }
+
+  Stream<AddressDataState> _mapAddressDataSubmittedToState(
+      AddressDataSubmitted event, AddressDataState state) async* {
+    if (state.status.isValidated) {
+      yield state.copyWith(status: FormzStatus.submissionSuccess);
+      try {
+        AddressData addressData = AddressData(
+          domicileAddress: state.domicileAddress,
+          housingType: state.housingType,
+          no: state.no,
+          province: state.province,
+        );
+
+        RegistrationData registrationData = RegistrationData(
+          personalData: state.registrationData.personalData,
+          addressData: addressData,
+        );
+
+        yield state.copyWith(
+          status: FormzStatus.submissionSuccess,
+          registrationData: registrationData,
+        );
+      } on Exception catch (_) {
+        yield state.copyWith(status: FormzStatus.submissionFailure);
+      }
+    }
+  }
+
+  AddressDataState _mapSetRegistrationDataToState(
+    SetRegistrationData event,
+    AddressDataState state,
+  ) {
+    return state.copyWith(
+      registrationData: event.registrationData,
+    );
   }
 }

@@ -2,7 +2,6 @@ import 'package:amar_bank_test/core/di/locator.dart';
 import 'package:amar_bank_test/pages/personal_data/bloc/personal_data_event.dart';
 import 'package:amar_bank_test/pages/personal_data/bloc/personal_data_state.dart';
 import 'package:amar_bank_test/pages/personal_data/personal_data.dart';
-import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';

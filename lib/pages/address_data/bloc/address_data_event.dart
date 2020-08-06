@@ -1,3 +1,4 @@
+import 'package:amar_bank_test/core/dto/registration_data.dart';
 import 'package:amar_bank_test/core/models/province_model.dart';
 import 'package:equatable/equatable.dart';
 
@@ -45,3 +46,12 @@ class AddressDataProvinceChanged extends AddressDataEvent {
 class AddressDataSubmitted extends AddressDataEvent {}
 
 class LoadDataProvinces extends AddressDataEvent {}
+
+class SetRegistrationData extends AddressDataEvent {
+  final RegistrationData registrationData;
+
+  SetRegistrationData(this.registrationData);
+
+  @override
+  List<Object> get props => [registrationData];
+}

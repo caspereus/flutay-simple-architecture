@@ -28,14 +28,21 @@ class AddressDataPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Address Data"),
-      ),
-      body: BlocProvider(
-        create: (context) => _bloc,
-        child: AddressDataForm(
-          bloc: _bloc,
+    return WillPopScope(
+      onWillPop: () {
+        return Future.value(false);
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: Text("Address Data"),
+        ),
+        body: BlocProvider(
+          create: (context) => _bloc,
+          child: AddressDataForm(
+            bloc: _bloc,
+            registrationData: _registrationData,
+          ),
         ),
       ),
     );

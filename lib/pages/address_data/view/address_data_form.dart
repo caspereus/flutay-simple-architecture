@@ -1,11 +1,13 @@
 import 'dart:developer';
 
+import 'package:amar_bank_test/core/dto/registration_data.dart';
 import 'package:amar_bank_test/core/models/province_model.dart';
 import 'package:amar_bank_test/pages/address_data/bloc/address_data_bloc.dart';
 import 'package:amar_bank_test/pages/address_data/bloc/address_data_event.dart';
 import 'package:amar_bank_test/pages/address_data/bloc/address_data_state.dart';
 import 'package:amar_bank_test/pages/address_data/models/domicile_address.dart';
 import 'package:amar_bank_test/pages/address_data/models/no.dart';
+import 'package:amar_bank_test/pages/review_data/view/review_data_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
@@ -13,13 +15,20 @@ import 'package:loading_overlay/loading_overlay.dart';
 
 class AddressDataForm extends StatelessWidget {
   final AddressDataBloc _bloc;
+  final RegistrationData _registrationData;
 
-  AddressDataForm({@required AddressDataBloc bloc})
+  AddressDataForm(
+      {@required AddressDataBloc bloc,
+      @required RegistrationData registrationData})
       : assert(bloc != null),
-        _bloc = bloc;
+        assert(registrationData != null),
+        _bloc = bloc,
+        _registrationData = registrationData;
 
   Widget build(BuildContext context) {
+    _bloc.add(SetRegistrationData(_registrationData));
     _bloc.add(LoadDataProvinces());
+
     return BlocListener<AddressDataBloc, AddressDataState>(
       listener: (context, state) {
         log("Current Provinces ${state.province.name}");
@@ -29,6 +38,7 @@ class AddressDataForm extends StatelessWidget {
             ..showSnackBar(
               const SnackBar(content: Text('Successfully Submit Address Data')),
             );
+          Navigator.push(context, ReviewDataPage.route(state.registrationData));
         }
       },
       child: BlocBuilder<AddressDataBloc, AddressDataState>(
@@ -180,8 +190,7 @@ class _ProvinceDropDown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AddressDataBloc, AddressDataState>(
-      buildWhen: (previous, current) =>
-          previous.province != current.province,
+      buildWhen: (previous, current) => previous.province != current.province,
       builder: (context, state) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,

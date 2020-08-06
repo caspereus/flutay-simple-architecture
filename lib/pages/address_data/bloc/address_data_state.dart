@@ -1,3 +1,4 @@
+import 'package:amar_bank_test/core/dto/registration_data.dart';
 import 'package:amar_bank_test/core/models/province_model.dart';
 import 'package:amar_bank_test/pages/address_data/models/domicile_address.dart';
 import 'package:amar_bank_test/pages/address_data/models/housing_type.dart';
@@ -8,15 +9,15 @@ import 'package:formz/formz.dart';
 enum LoadingState { idle, loading, loaded, failed }
 
 class AddressDataState extends Equatable {
-  const AddressDataState({
-    this.status = FormzStatus.pure,
-    this.domicileAddress = const DomicileAddress.pure(),
-    this.housingType = const HousingType.pure(),
-    this.no = const No.pure(),
-    this.provinces = const [],
-    this.province,
-    this.loadingState = LoadingState.idle,
-  });
+  const AddressDataState(
+      {this.status = FormzStatus.pure,
+      this.domicileAddress = const DomicileAddress.pure(),
+      this.housingType = const HousingType.pure(),
+      this.no = const No.pure(),
+      this.provinces = const [],
+      this.province,
+      this.loadingState = LoadingState.idle,
+      this.registrationData});
 
   final FormzStatus status;
   final DomicileAddress domicileAddress;
@@ -25,16 +26,17 @@ class AddressDataState extends Equatable {
   final List<ProvinceModel> provinces;
   final LoadingState loadingState;
   final ProvinceModel province;
+  final RegistrationData registrationData;
 
-  AddressDataState copyWith({
-    FormzStatus status,
-    DomicileAddress domicileAddress,
-    HousingType housingType,
-    No no,
-    List<ProvinceModel> provinces,
-    LoadingState loadingState,
-    ProvinceModel province,
-  }) {
+  AddressDataState copyWith(
+      {FormzStatus status,
+      DomicileAddress domicileAddress,
+      HousingType housingType,
+      No no,
+      List<ProvinceModel> provinces,
+      LoadingState loadingState,
+      ProvinceModel province,
+      RegistrationData registrationData}) {
     return new AddressDataState(
       status: status ?? this.status,
       domicileAddress: domicileAddress ?? this.domicileAddress,
@@ -43,6 +45,7 @@ class AddressDataState extends Equatable {
       provinces: provinces ?? this.provinces,
       loadingState: loadingState ?? this.loadingState,
       province: province ?? this.province,
+      registrationData: registrationData ?? this.registrationData,
     );
   }
 
@@ -54,7 +57,8 @@ class AddressDataState extends Equatable {
         no,
         provinces,
         loadingState,
-        province
+        province,
+        registrationData,
       ];
 
   @override
