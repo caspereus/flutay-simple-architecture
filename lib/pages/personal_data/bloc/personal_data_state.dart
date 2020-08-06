@@ -1,3 +1,5 @@
+import 'package:amar_bank_test/core/dto/personal_data.dart';
+import 'package:amar_bank_test/core/dto/registration_data.dart';
 import 'package:amar_bank_test/pages/personal_data/models/bank_account_no.dart';
 import 'package:amar_bank_test/pages/personal_data/models/date_of_birth.dart';
 import 'package:amar_bank_test/pages/personal_data/models/education.dart';
@@ -14,6 +16,7 @@ class PersonalDataState extends Equatable {
     this.fullName = const FullName.pure(),
     this.bankAccountNo = const BankAccountNo.pure(),
     this.dateOfBirth = const DateOfBirth.pure(),
+    this.registrationData,
   });
 
   final FormzStatus status;
@@ -22,15 +25,16 @@ class PersonalDataState extends Equatable {
   final FullName fullName;
   final BankAccountNo bankAccountNo;
   final DateOfBirth dateOfBirth;
+  final RegistrationData registrationData;
 
-  PersonalDataState copyWith({
-    FormzStatus status,
-    NationID nationID,
-    Education education,
-    FullName fullName,
-    BankAccountNo bankAccountNo,
-    DateOfBirth dateOfBirth,
-  }) {
+  PersonalDataState copyWith(
+      {FormzStatus status,
+      NationID nationID,
+      Education education,
+      FullName fullName,
+      BankAccountNo bankAccountNo,
+      DateOfBirth dateOfBirth,
+      RegistrationData registrationData}) {
     return new PersonalDataState(
       status: status ?? this.status,
       nationID: nationID ?? this.nationID,
@@ -38,6 +42,7 @@ class PersonalDataState extends Equatable {
       fullName: fullName ?? this.fullName,
       bankAccountNo: bankAccountNo ?? this.bankAccountNo,
       dateOfBirth: dateOfBirth ?? this.dateOfBirth,
+      registrationData: registrationData ?? this.registrationData,
     );
   }
 
@@ -49,6 +54,7 @@ class PersonalDataState extends Equatable {
         fullName,
         bankAccountNo,
         dateOfBirth,
+        registrationData
       ];
 
   @override

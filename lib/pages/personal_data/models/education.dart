@@ -1,4 +1,3 @@
-import 'package:amar_bank_test/pages/personal_data/models/models.dart';
 import 'package:formz/formz.dart';
 
 class EducationEnum {
@@ -16,9 +15,10 @@ class EducationEnum {
 enum EducationValidatorError { EMPTY, INVALID_VALUE }
 
 class Education extends FormzInput<String, EducationValidatorError> {
-
   const Education.pure() : super.pure(EducationEnum.SD);
+
   const Education.dirty([String value = '']) : super.dirty(value);
+
   List<String> get educations => EducationEnum.values;
 
   @override

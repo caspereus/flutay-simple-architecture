@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'dart:developer' as dev;
 
 import 'package:amar_bank_test/core/network/network_constant.dart';
 import 'package:dio/adapter.dart';

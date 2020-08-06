@@ -1,3 +1,5 @@
+import 'package:amar_bank_test/core/dto/personal_data.dart';
+import 'package:amar_bank_test/core/dto/registration_data.dart';
 import 'package:amar_bank_test/pages/personal_data/bloc/personal_data_event.dart';
 import 'package:amar_bank_test/pages/personal_data/bloc/personal_data_state.dart';
 import 'package:amar_bank_test/pages/personal_data/models/bank_account_no.dart';
@@ -127,8 +129,23 @@ class PersonalDataBloc extends Bloc<PersonalDataEvent, PersonalDataState> {
     if (state.status.isValidated) {
       yield state.copyWith(status: FormzStatus.submissionSuccess);
       try {
-        await Future.delayed(Duration(seconds: 1));
-        yield state.copyWith(status: FormzStatus.submissionSuccess);
+
+        PersonalData personalDataDTO = PersonalData(
+          nationId: state.nationID,
+          education: state.education,
+          bankAccountNo: state.bankAccountNo,
+          fullName: state.fullName,
+          dateOfBirth: state.dateOfBirth,
+        );
+
+        RegistrationData registrationData = RegistrationData(
+          personalData: personalDataDTO,
+        );
+
+        yield state.copyWith(
+          status: FormzStatus.submissionSuccess,
+          registrationData: registrationData,
+        );
       } on Exception catch (_) {
         yield state.copyWith(status: FormzStatus.submissionFailure);
       }

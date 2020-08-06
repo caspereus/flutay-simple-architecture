@@ -9,7 +9,7 @@ class PersonalDataPage extends StatelessWidget {
   }
 
   // ignore: close_sinks
-  PersonalDataBloc bloc = PersonalDataBloc();
+  final PersonalDataBloc bloc = PersonalDataBloc();
 
   @override
   Widget build(BuildContext context) {

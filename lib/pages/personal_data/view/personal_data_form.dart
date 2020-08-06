@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:amar_bank_test/pages/address_data/view/address_data_page.dart';
 import 'package:amar_bank_test/pages/personal_data/bloc/personal_data_bloc.dart';
 import 'package:amar_bank_test/pages/personal_data/bloc/personal_data_event.dart';
 import 'package:amar_bank_test/pages/personal_data/bloc/personal_data_state.dart';
@@ -13,14 +14,20 @@ class PersonalDataForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<PersonalDataBloc, PersonalDataState>(
       listener: (context, state) {
-        print("so state changed");
         log(state.status.toString());
         if (state.status == FormzStatus.submissionSuccess) {
           Scaffold.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
-              const SnackBar(content: Text('Successfully Submit Personal Data')),
+              const SnackBar(
+                  content: Text('Successfully Submit Personal Data')),
             );
+          Navigator.push(
+            context,
+            AddressDataPage.route(
+              state.registrationData,
+            ),
+          );
         }
       },
       child: Container(
@@ -49,7 +56,6 @@ class PersonalDataForm extends StatelessWidget {
     return const Padding(padding: EdgeInsets.all(12));
   }
 }
-
 
 class _NationIDInput extends StatelessWidget {
   @override
@@ -122,7 +128,7 @@ class _FullNameInput extends StatelessWidget {
       case FullNameValidatorError.LENGTH_NOT_VALID:
         return "full name max 10 characters";
         break;
-      case FullNameValidatorError.NOT_NUMERIC:
+      case FullNameValidatorError.NOT_CHARACTERS:
         return "full name must be character not numeric";
         break;
       default:
@@ -139,7 +145,7 @@ class _BankAccountNoInput extends StatelessWidget {
           previous.bankAccountNo != current.bankAccountNo,
       builder: (context, state) {
         return TextField(
-          key: const Key('personalDataForm_BankAccountNoInput_textField'),
+          key: const Key('personalDataForm_BankAccountNo_textField'),
           keyboardType: TextInputType.number,
           onChanged: (bankAccountNo) {
             context
@@ -190,6 +196,7 @@ class _EducationDropDown extends StatelessWidget {
               padding: new EdgeInsets.all(5.0),
             ),
             DropdownButton<String>(
+                key: const Key('personalDataForm_educationDropdown'),
                 value: state.education.value,
                 isExpanded: true,
                 items: state.education.educations
@@ -227,15 +234,10 @@ class _DateOfBirthDatePickerState extends State<_DateOfBirthDatePicker> {
       builder: (context, state) {
         return GestureDetector(
           onTap: () async {
-            final DateTime datePicked = await showDatePicker(
-              context: context,
-              initialDate: DateTime.now(),
-              firstDate: DateTime(1995, 8),
-              lastDate: DateTime.now(),
-            );
+            DateTime datePicked = await _pickDate();
             if (datePicked != null) {
-              String formattedDate = DateFormat('dd-MM-yyyy').format(datePicked);
-              _dateOfBirthTextFieldController.text = formattedDate;
+              String formattedDate = _formatDate(datePicked);
+              _setTextFieldDate(formattedDate);
               context
                   .bloc<PersonalDataBloc>()
                   .add(PersonalDataDateOfBirthChanged(formattedDate));
@@ -261,6 +263,26 @@ class _DateOfBirthDatePickerState extends State<_DateOfBirthDatePicker> {
     );
   }
 
+  Future<DateTime> _pickDate() async {
+    final DateTime datePicked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1995, 8),
+      lastDate: DateTime.now(),
+    );
+
+    return datePicked;
+  }
+
+  String _formatDate(DateTime datePicked) {
+    String formattedDate = DateFormat('dd-MM-yyyy').format(datePicked);
+    return formattedDate;
+  }
+
+  void _setTextFieldDate(String formattedDate) {
+    _dateOfBirthTextFieldController.text = formattedDate;
+  }
+
   String _getMessageError(DateOfBirthValidatorError error) {
     switch (error) {
       case DateOfBirthValidatorError.EMPTY:
@@ -276,7 +298,6 @@ class _SubmitButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<PersonalDataBloc, PersonalDataState>(
-      buildWhen: (previous, current) => previous.status != current.status,
       builder: (context, state) {
         return state.status.isSubmissionInProgress
             ? const CircularProgressIndicator()

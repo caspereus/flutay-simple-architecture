@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:amar_bank_test/core/models/province.dart';
+import 'package:amar_bank_test/core/models/province_model.dart';
 
 ProvinceResponse provinceResponseFromJson(String str) =>
     ProvinceResponse.fromJson(json.decode(str));
@@ -13,14 +13,14 @@ class ProvinceResponse {
     this.province,
   });
 
-  List<Province> province;
+  List<ProvinceModel> province;
 
   factory ProvinceResponse.fromJson(Map<String, dynamic> json) =>
       ProvinceResponse(
         province: json["provinsi"] == null
             ? null
-            : List<Province>.from(
-                json["provinsi"].map((x) => Province.fromJson(x))),
+            : List<ProvinceModel>.from(
+                json["provinsi"].map((x) => ProvinceModel.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {

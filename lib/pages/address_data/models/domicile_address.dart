@@ -2,8 +2,7 @@ import 'package:formz/formz.dart';
 
 enum DomicileAddressValidatorError { LENGTH_NOT_VALID, EMPTY }
 
-class DomicileAddress
-    extends FormzInput<String, DomicileAddressValidatorError> {
+class DomicileAddress extends FormzInput<String, DomicileAddressValidatorError> {
   const DomicileAddress.pure() : super.pure('');
 
   const DomicileAddress.dirty([String value = '']) : super.dirty(value);

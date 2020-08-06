@@ -1,6 +1,6 @@
 import 'package:formz/formz.dart';
 
-enum FullNameValidatorError { LENGTH_NOT_VALID, NOT_NUMERIC }
+enum FullNameValidatorError { LENGTH_NOT_VALID, NOT_CHARACTERS }
 
 class FullName extends FormzInput<String, FullNameValidatorError> {
   const FullName.pure() : super.pure('');
@@ -12,7 +12,7 @@ class FullName extends FormzInput<String, FullNameValidatorError> {
   @override
   FullNameValidatorError validator(String value) {
     if (value.isNotEmpty && _isNumeric(value))
-      return FullNameValidatorError.NOT_NUMERIC;
+      return FullNameValidatorError.NOT_CHARACTERS;
     if (value.isNotEmpty && value.length >= MAX_CHARACTER_LENGTH)
       return FullNameValidatorError.LENGTH_NOT_VALID;
     return null;

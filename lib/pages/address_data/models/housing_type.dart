@@ -1,4 +1,3 @@
-import 'package:amar_bank_test/pages/personal_data/models/models.dart';
 import 'package:formz/formz.dart';
 
 class HousingTypeEnum {
@@ -10,10 +9,10 @@ class HousingTypeEnum {
 
 enum HousingTypeValidatorError { EMPTY, INVALID_VALUE }
 
-class Education extends FormzInput<String, HousingTypeValidatorError> {
-  const Education.pure() : super.pure(HousingTypeEnum.HOME);
+class HousingType extends FormzInput<String, HousingTypeValidatorError> {
+  const HousingType.pure() : super.pure(HousingTypeEnum.HOME);
 
-  const Education.dirty([String value = '']) : super.dirty(value);
+  const HousingType.dirty([String value = '']) : super.dirty(value);
 
   List<String> get types => HousingTypeEnum.values;
 
