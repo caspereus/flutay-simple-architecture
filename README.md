@@ -1,4 +1,4 @@
-# Amar Bank Mini Test
+# Flutter Simple Architecture
 
 ## Folder Structe
 Disini saya membagia ke dua bagian folder yaitu core dan page dimana folder core khusus mengatur lalu lintas data,business logic,services,dan config sedangkan folder page di pakai untuk melakukan ui logic,view dan widget
